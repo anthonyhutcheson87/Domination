@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Grounded Partner — Daily Leadership Course</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0d0d0d;font-family:Georgia,'Times New Roman',serif;color:#e8dcc8;min-height:100vh;padding-bottom:100px}
+  button{font-family:Georgia,'Times New Roman',serif;cursor:pointer}
+  textarea{font-family:Georgia,'Times New Roman',serif}
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:#0d0d0d}
+  ::-webkit-scrollbar-thumb{background:#3a2a1a;border-radius:2px}
+
+  /* HEADER */
+  .header{background:linear-gradient(135deg,#1a0a00 0%,#0d0d0d 50%,#001a0a 100%);border-bottom:1px solid #3a2a1a;padding:36px 24px 28px;text-align:center;position:relative;overflow:hidden}
+  .header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(180,120,40,0.1) 0%,transparent 70%);pointer-events:none}
+  .header-eyebrow{font-size:11px;letter-spacing:.3em;color:#b07830;text-transform:uppercase;margin-bottom:8px}
+  .header-title{font-size:clamp(22px,5vw,36px);font-weight:400;color:#f0e4c8;margin-bottom:6px}
+  .header-date{font-size:12px;color:#5a4a34;margin-bottom:20px}
+  .ring-wrap{display:flex;justify-content:center;margin-bottom:18px}
+  .banner{font-size:13px;font-style:italic;margin-bottom:20px;min-height:20px;transition:color .4s}
+  .header-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .btn-outline{padding:8px 16px;background:transparent;border:1px solid #3a2a1a;border-radius:20px;color:#b07830;font-size:12px}
+  .btn-gold{padding:8px 16px;background:linear-gradient(90deg,#7a3a08,#b07830);border:none;border-radius:20px;color:#f0e4c8;font-size:12px}
+  .btn-saved{padding:8px 16px;background:transparent;border:1px solid #3a2a1a;border-radius:20px;color:#5a4a34;font-size:12px}
+
+  /* TABS */
+  .tabs{display:flex;border-bottom:1px solid #2a1e12;background:#0a0804;position:sticky;top:0;z-index:10}
+  .tab-btn{flex:1;padding:14px 8px;background:none;border:none;border-bottom:2px solid transparent;color:#4a3a24;font-size:13px;transition:all .2s}
+  .tab-btn.active{border-bottom-color:#b07830;color:#b07830}
+
+  /* CONTENT */
+  .content{max-width:680px;margin:0 auto;padding:28px 16px 0}
+
+  /* SECTION LABEL */
+  .section-label{font-size:11px;letter-spacing:.2em;color:#5a4a34;text-transform:uppercase}
+
+  /* PROGRESS BAR */
+  .prog-row{display:flex;justify-content:space-between;margin-bottom:8px}
+  .prog-track{height:5px;background:#1e1e1e;border-radius:3px;overflow:hidden;margin-bottom:24px}
+  .prog-fill{height:100%;border-radius:3px;transition:width .5s ease}
+
+  /* HABIT CARDS */
+  .habit-card{margin-bottom:10px;border-radius:8px;overflow:hidden;transition:all .2s}
+  .habit-header{width:100%;display:flex;align-items:center;gap:14px;padding:16px 20px;background:none;border:none;text-align:left}
+  .habit-emoji{font-size:20px}
+  .habit-info{flex:1;min-width:0}
+  .habit-label{font-size:15px;font-weight:500;transition:all .2s}
+  .habit-sub{font-size:11px;color:#4a3a24;margin-top:2px}
+  .habit-mini-track{margin-top:6px;height:3px;width:100px;background:#1e1a14;border-radius:2px;overflow:hidden}
+  .habit-mini-fill{height:100%;border-radius:2px;transition:width .3s}
+  .habit-count{font-size:12px;min-width:36px;text-align:right}
+  .habit-arrow{font-size:10px;color:#5a4a34;transition:transform .2s;display:inline-block}
+  .habit-tasks{border-top:1px solid #2a1e12;padding:12px 20px 16px}
+  .task-row{display:flex;align-items:flex-start;gap:14px;padding:10px 0;cursor:pointer}
+  .task-row:not(:last-child){border-bottom:1px solid #1a1410}
+  .task-circle{width:18px;height:18px;border-radius:50%;flex-shrink:0;border:2px solid #3a2a1a;background:transparent;display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all .15s}
+  .task-circle.done{border-color:#7a4a18;background:#7a4a18}
+  .task-check{color:#f0d090;font-size:9px;font-weight:700;display:none}
+  .task-circle.done .task-check{display:block}
+  .task-text{font-size:14px;line-height:1.5;color:#c0a878;transition:all .15s}
+  .task-text.done{color:#4a3a24;text-decoration:line-through}
+
+  /* EOD NUDGE */
+  .eod-nudge{margin-top:28px;padding:18px 20px;background:#0a0804;border:1px solid #2a1e12;border-radius:10px;text-align:center}
+  .eod-nudge p{font-size:13px;color:#7a6a54;margin-bottom:12px}
+  .btn-eod{padding:10px 24px;background:linear-gradient(90deg,#7a3a08,#b07830);border:none;border-radius:20px;color:#f0e4c8;font-size:13px}
+
+  /* PROGRESS TAB */
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+  .stat-card{background:#0a0804;border:1px solid #2a1e12;border-radius:10px;padding:18px 16px}
+  .stat-icon{font-size:22px;margin-bottom:6px}
+  .stat-value{font-size:24px;font-weight:400}
+  .stat-label{font-size:11px;color:#4a3a24;margin-top:4px}
+  .chart-box{background:#0a0804;border:1px solid #2a1e12;border-radius:10px;padding:20px 16px}
+  .chart-legend{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+  .legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+  .history-empty{padding:24px;text-align:center;color:#3a2a1a;font-size:13px}
+  .history-item{display:flex;align-items:center;gap:14px;padding:14px 18px;margin-bottom:8px;background:#0a0804;border:1px solid #1e1a12;border-radius:8px}
+  .history-ring{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:400}
+  .history-date{font-size:13px;color:#c0a878}
+  .history-label{font-size:11px;margin-top:2px}
+  .history-note{font-size:11px;color:#4a3a24;margin-top:4px;font-style:italic}
+  .history-count{font-size:11px;color:#3a2a1a}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:20px}
+  .modal-box{background:linear-gradient(160deg,#110a04,#0d0d0d);border:1px solid #5a3a18;border-radius:16px;padding:32px 28px;max-width:480px;width:100%;max-height:85vh;overflow-y:auto}
+  .modal-icon{font-size:36px;margin-bottom:8px}
+  .modal-eyebrow{font-size:11px;letter-spacing:.3em;color:#b07830;text-transform:uppercase;margin-bottom:6px}
+  .modal-title{font-size:22px;color:#f0e4c8;font-weight:400}
+  .modal-sub{font-size:13px;color:#5a4a34;margin-top:4px}
+  .score-box{text-align:center;padding:28px 20px;margin-bottom:24px;background:#0a0804;border-radius:12px}
+  .score-big{font-size:56px;font-weight:300;line-height:1}
+  .score-label{font-size:16px;margin-top:8px}
+  .score-meta{font-size:13px;color:#4a3a24;margin-top:6px}
+  .breakdown-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .breakdown-mini{flex:1}
+  .breakdown-header{display:flex;justify-content:space-between;margin-bottom:3px}
+  .breakdown-track{height:3px;background:#1e1a14;border-radius:2px;overflow:hidden}
+  .breakdown-fill{height:100%;border-radius:2px}
+  .missed-box{margin-bottom:24px;padding:16px 18px;background:#0a0804;border:1px solid #3a1a1a;border-radius:10px}
+  .missed-label{font-size:11px;letter-spacing:.2em;color:#7a4a4a;text-transform:uppercase;margin-bottom:10px}
+  .missed-item{font-size:12px;color:#7a5a4a;margin-bottom:4px;display:flex;gap:8px}
+  .note-label{font-size:11px;letter-spacing:.2em;color:#5a4a34;text-transform:uppercase;margin-bottom:10px}
+  .note-area{width:100%;min-height:80px;background:#0a0804;border:1px solid #2a1e12;border-radius:8px;padding:12px 14px;color:#c0a878;font-size:13px;resize:none;outline:none;line-height:1.5}
+  .modal-btns{display:flex;gap:10px;margin-top:24px}
+  .btn-cancel{flex:1;padding:12px;background:transparent;border:1px solid #2a1e12;border-radius:8px;color:#5a4a34;font-size:13px}
+  .btn-save{flex:2;padding:12px;background:linear-gradient(90deg,#8a4a10,#b07830);border:none;border-radius:8px;color:#f0e4c8;font-size:14px}
+  .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px}
+  .stat-mini{background:#0a0804;border:1px solid #2a1e12;border-radius:8px;padding:12px 8px;text-align:center}
+  .stat-mini-val{font-size:18px;color:#b07830;font-weight:500}
+  .stat-mini-lbl{font-size:10px;color:#4a3a24;margin-top:3px}
+  .focus-box{background:linear-gradient(135deg,#1a0a00,#0d0d0d);border:1px solid #3a2a12;border-radius:10px;padding:18px 20px;margin-bottom:24px}
+  .focus-label{font-size:11px;letter-spacing:.2em;color:#b07830;text-transform:uppercase;margin-bottom:10px}
+  .focus-item{display:flex;gap:10px;margin-bottom:8px;font-size:13px;color:#c0a878;line-height:1.4}
+  .focus-arrow{color:#7a4a18;flex-shrink:0}
+  .btn-start{width:100%;padding:14px;background:linear-gradient(90deg,#8a4a10,#b07830);border:none;border-radius:8px;color:#f0e4c8;font-size:15px;letter-spacing:.05em}
+  .yesterday-box{background:#0a0804;border:1px solid #2a1e12;border-radius:10px;padding:20px;text-align:center;margin-bottom:24px}
+  .yesterday-score{font-size:42px;font-weight:300;line-height:1}
+  .yesterday-lbl{font-size:14px;margin-top:4px}
+  .yesterday-meta{font-size:12px;color:#4a3a24;margin-top:8px}
+  .yesterday-note{margin-top:14px;padding:10px 14px;background:#110a04;border-radius:8px;font-size:13px;color:#8a7a5a;font-style:italic;text-align:left}
+  .no-yesterday{margin-bottom:24px;padding:20px;text-align:center;border:1px solid #2a1e12;border-radius:10px;color:#4a3a24;font-size:14px}
+
+  /* BAR CHART */
+  .chart-bars{display:flex;align-items:flex-end;gap:4px;height:110px;justify-content:center;padding:20px 0 0}
+  .bar-col{display:flex;flex-direction:column;align-items:center;gap:3px}
+  .bar-score{font-size:8px;color:#5a4a34}
+  .bar-block{border-radius:3px 3px 0 0;position:relative;transition:height .4s ease;min-height:4px}
+  .bar-today-label{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:7px;white-space:nowrap;font-weight:700}
+  .bar-date{font-size:7px;color:#4a3a24;writing-mode:vertical-rl;transform:rotate(180deg);height:26px;margin-top:3px}
+  .chart-empty{color:#3a2a1a;font-size:13px;align-self:center}
+</style>
+</head>
+<body>
+
+<!-- MORNING REVIEW MODAL -->
+<div id="modal-morning" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <div style="text-align:center;margin-bottom:28px">
+      <div class="modal-icon">🌅</div>
+      <div class="modal-eyebrow">Good Morning</div>
+      <div class="modal-title">Morning Review</div>
+      <div class="modal-sub" id="morning-date"></div>
+    </div>
+    <div id="morning-yesterday-section"></div>
+    <div class="stats-row" id="morning-stats"></div>
+    <div style="margin-bottom:24px">
+      <div class="section-label" style="margin-bottom:12px">Last 14 Days</div>
+      <div class="chart-box">
+        <div id="morning-chart"></div>
+        <div class="chart-legend" id="morning-legend"></div>
+      </div>
+    </div>
+    <div class="focus-box">
+      <div class="focus-label">Today's Focus</div>
+      <div class="focus-item"><span class="focus-arrow">→</span> Start with Morning Intention before anything else</div>
+      <div class="focus-item"><span class="focus-arrow">→</span> Protect your training — no excuses today</div>
+      <div class="focus-item"><span class="focus-arrow">→</span> Give her your full presence for at least 20 minutes</div>
+    </div>
+    <button class="btn-start" onclick="closeModal('modal-morning')">Start Today's Work →</button>
+  </div>
+</div>
+
+<!-- END OF DAY MODAL -->
+<div id="modal-eod" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <div style="text-align:center;margin-bottom:28px">
+      <div class="modal-icon">🌙</div>
+      <div class="modal-eyebrow">End of Day</div>
+      <div class="modal-title">Daily Summary</div>
+    </div>
+    <div class="score-box" id="eod-score-box">
+      <div class="score-big" id="eod-pct"></div>
+      <div class="score-label" id="eod-label"></div>
+      <div class="score-meta" id="eod-meta"></div>
+    </div>
+    <div style="margin-bottom:24px">
+      <div class="section-label" style="margin-bottom:12px">Habit Breakdown</div>
+      <div id="eod-breakdown"></div>
+    </div>
+    <div id="eod-missed-section"></div>
+    <div style="margin-bottom:24px">
+      <div class="note-label">Daily Note (optional)</div>
+      <textarea id="eod-note" class="note-area" placeholder="One win, one lesson, one thing to do better tomorrow..."></textarea>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('modal-eod')">Cancel</button>
+      <button class="btn-save" onclick="saveDay()">Save Day &amp; Lock In →</button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-eyebrow">The Grounded Partner</div>
+  <h1 class="header-title">Dominant Leadership Course</h1>
+  <div class="header-date" id="header-date"></div>
+  <div class="ring-wrap">
+    <svg width="88" height="88" style="transform:rotate(-90deg)">
+      <circle cx="44" cy="44" r="36" fill="none" stroke="#1e1a14" stroke-width="6"/>
+      <circle id="ring-circle" cx="44" cy="44" r="36" fill="none" stroke="#7a4a18" stroke-width="6" stroke-linecap="round"
+        stroke-dasharray="226.2" stroke-dashoffset="226.2" style="transition:stroke-dashoffset .6s ease,stroke .4s"/>
+    </svg>
+    <div style="position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;width:88px;height:88px">
+      <div id="ring-pct" style="font-size:20px;font-weight:500;color:#f0e4c8;line-height:1">0%</div>
+      <div style="font-size:9px;color:#5a4a34;letter-spacing:.1em">TODAY</div>
+    </div>
+  </div>
+  <div class="banner" id="banner"></div>
+  <div class="header-btns">
+    <button class="btn-outline" onclick="openMorning()">🌅 Morning Review</button>
+    <button id="eod-btn" class="btn-gold" onclick="openEOD()">🌙 End of Day Summary</button>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" id="tab-today" onclick="switchTab('today')">Today's Habits</button>
+  <button class="tab-btn" id="tab-progress" onclick="switchTab('progress')">Progress</button>
+</div>
+
+<!-- TODAY TAB -->
+<div id="view-today" class="content">
+  <div class="prog-row">
+    <span class="section-label">Daily Habits</span>
+    <span id="tasks-count" style="font-size:12px;color:#b07830"></span>
+  </div>
+  <div class="prog-track">
+    <div id="main-prog-fill" class="prog-fill" style="width:0%;background:linear-gradient(90deg,#8a4a10,#d4900a)"></div>
+  </div>
+  <div id="habits-list"></div>
+  <div id="eod-nudge" class="eod-nudge" style="display:none">
+    <p id="nudge-text"></p>
+    <button class="btn-eod" onclick="openEOD()">🌙 Open End of Day Summary</button>
+  </div>
+</div>
+
+<!-- PROGRESS TAB -->
+<div id="view-progress" class="content" style="display:none">
+  <div class="stats-grid" id="progress-stats"></div>
+  <div style="margin-bottom:28px">
+    <div class="section-label" style="margin-bottom:12px">Last 14 Days — Daily Score</div>
+    <div class="chart-box">
+      <div id="progress-chart"></div>
+      <div class="chart-legend" id="progress-legend"></div>
+    </div>
+  </div>
+  <div>
+    <div class="section-label" style="margin-bottom:12px">History Log</div>
+    <div id="history-log"></div>
+  </div>
+</div>
+
+<script>
+const dailyHabits = [
+  { id:"h1", emoji:"🌅", label:"Morning Intention", sub:"Set your frame before the world does", tasks:[
+    "Wake up before your wife — own the first hour of the day",
+    "Sit in silence for 5 minutes before touching your phone",
+    "Write down ONE intention: how do you want to show up today?",
+    "Visualize a specific moment today where you lead with calm confidence",
+    "Say your affirmation aloud: 'I am grounded, present, and in control of myself'"
+  ]},
+  { id:"h2", emoji:"💪", label:"Physical Training", sub:"Discipline made visible", tasks:[
+    "Complete at least 30 minutes of intentional physical exercise",
+    "Focus on compound movements — squats, deadlifts, push-ups, pull-ups",
+    "No skipping — even 15 minutes counts; consistency beats perfection",
+    "Cold shower after training to build mental toughness",
+    "Track your workout — what gets measured gets improved"
+  ]},
+  { id:"h3", emoji:"🧘", label:"Mental Fortitude Practice", sub:"Train the mind like the body", tasks:[
+    "10 minutes of meditation or breathwork (box breathing: 4 in, 4 hold, 4 out)",
+    "Read 10 pages of a book on leadership, philosophy, or self-mastery",
+    "Identify one emotional trigger from yesterday and journal through it",
+    "Practice reframing: turn one complaint into a responsibility"
+  ]},
+  { id:"h4", emoji:"❤️‍🔥", label:"Undivided Time With Her", sub:"Presence is the greatest gift", tasks:[
+    "Put your phone face-down or in another room for at least 20 minutes",
+    "Make genuine eye contact when she speaks — don't half-listen",
+    "Ask her one meaningful question: 'What's been on your mind lately?'",
+    "Initiate physical touch that isn't about sex — hold her hand, hug her from behind",
+    "Express one specific thing you appreciate about her today"
+  ]},
+  { id:"h5", emoji:"🗓️", label:"Lead a Decision Today", sub:"Decisiveness builds trust", tasks:[
+    "Make at least one household or family decision without being asked",
+    "Plan something for the two of you — even if it's just tonight's dinner",
+    "Handle one task she'd normally have to remind you about",
+    "If conflict arises, be the first to de-escalate with calm, not ego"
+  ]},
+  { id:"h6", emoji:"🔥", label:"Frame Check", sub:"Hold your ground throughout the day", tasks:[
+    "Notice moments when you felt reactive — breathe first, respond second",
+    "Did you speak with certainty today or hedge your words?",
+    "Were you the emotional anchor in your home, or did you add to the noise?",
+    "Check: did you stay true to your values in at least one hard moment?"
+  ]},
+  { id:"h7", emoji:"🌙", label:"Evening Reflection", sub:"Close the day with intention", tasks:[
+    "Journal 3 things: one win, one lesson, one thing to do better tomorrow",
+    "Did you lead today or follow? Be honest with yourself",
+    "Acknowledge your wife for something specific before bed",
+    "Set tomorrow's ONE priority — write it down tonight",
+    "Get to bed at a consistent time — tired men make reactive decisions"
+  ]},
+  { id:"h8", emoji:"📵", label:"Digital Discipline", sub:"Master your attention", tasks:[
+    "No phone for the first 30 minutes after waking",
+    "Set a hard limit on social media (max 30 min total)",
+    "No screens 45 minutes before bed",
+    "Be fully off your phone during any shared meal with your wife"
+  ]}
+];
+
+const TOTAL_TASKS = dailyHabits.reduce((a,h)=>a+h.tasks.length,0);
+
+function todayKey(){ return new Date().toISOString().slice(0,10); }
+function gs(k,fb){ try{ const v=localStorage.getItem(k); return v!==null?JSON.parse(v):fb; }catch{ return fb; } }
+function ss(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch{} }
+
+function scoreLabel(pct){
+  if(pct===100) return {label:"Perfect Day 🏆", color:"#f0d080"};
+  if(pct>=80)   return {label:"Strong Day 💪",  color:"#7abf7a"};
+  if(pct>=60)   return {label:"Solid Effort 👊", color:"#b07830"};
+  if(pct>=40)   return {label:"Getting There 📈",color:"#8a7a5a"};
+  return {label:"Show Up More 🔧", color:"#7a4a4a"};
+}
+
+function calcStreak(history){
+  const sorted=[...history].sort((a,b)=>b.date.localeCompare(a.date));
+  let s=0; for(let i=0;i<sorted.length;i++){ if(sorted[i].score>=60) s++; else break; } return s;
+}
+
+// State
+let habitChecked = gs('hc_'+todayKey(), {});
+let history      = gs('gp_history', []);
+let openHabit    = null;
+
+function save(){ ss('hc_'+todayKey(), habitChecked); }
+
+// ── RENDER HABITS ──────────────────────────────────────────
+function renderHabits(){
+  const list = document.getElementById('habits-list');
+  list.innerHTML = '';
+  dailyHabits.forEach(h => {
+    const done  = h.tasks.filter((_,i)=>habitChecked[h.id+'-'+i]).length;
+    const total = h.tasks.length;
+    const allDone = done===total;
+    const isOpen  = openHabit===h.id;
+
+    const card = document.createElement('div');
+    card.className='habit-card';
+    card.style.border=`1px solid ${isOpen?'#5a3a18':allDone?'#2a4a2a':'#2a1e12'}`;
+    card.style.background=allDone?'#080d08':isOpen?'#110a04':'#0d0d0d';
+
+    const miniPct=(done/total)*100;
+    const miniColor=allDone?'#4a8a4a':'#7a4a18';
+
+    let tasksHtml='';
+    if(isOpen){
+      h.tasks.forEach((task,ti)=>{
+        const key=h.id+'-'+ti;
+        const chk=!!habitChecked[key];
+        tasksHtml+=`
+        <div class="task-row" onclick="toggleTask('${key}','${h.id}')">
+          <div class="task-circle${chk?' done':''}"><span class="task-check">✓</span></div>
+          <span class="task-text${chk?' done':''}">${task}</span>
+        </div>`;
+      });
+    }
+
+    card.innerHTML=`
+      <button class="habit-header" onclick="toggleHabit('${h.id}')">
+        <span class="habit-emoji">${h.emoji}</span>
+        <div class="habit-info">
+          <div class="habit-label" style="color:${allDone?'#7abf7a':'#e8dcc8'};text-decoration:${allDone?'line-through':'none'};opacity:${allDone?.7:1}">${h.label}</div>
+          <div class="habit-sub">${h.sub}</div>
+          <div class="habit-mini-track"><div class="habit-mini-fill" style="width:${miniPct}%;background:${miniColor}"></div></div>
+        </div>
+        <span class="habit-count" style="color:${allDone?'#4a8a4a':'#5a4a34'}">${done}/${total}</span>
+        <span class="habit-arrow" style="transform:${isOpen?'rotate(180deg)':'none'}">▼</span>
+      </button>
+      ${isOpen?`<div class="habit-tasks">${tasksHtml}</div>`:''}
+    `;
+    list.appendChild(card);
+  });
+  updateHeader();
+}
+
+function toggleHabit(id){
+  openHabit = openHabit===id ? null : id;
+  renderHabits();
+}
+
+function toggleTask(key, habitId){
+  habitChecked[key] = !habitChecked[key];
+  save();
+  renderHabits();
+}
+
+// ── HEADER UPDATE ──────────────────────────────────────────
+function updateHeader(){
+  const completed = dailyHabits.reduce((a,h)=>a+h.tasks.filter((_,i)=>habitChecked[h.id+'-'+i]).length, 0);
+  const pct = Math.round((completed/TOTAL_TASKS)*100);
+
+  // Ring
+  const circ=226.2;
+  const offset=circ*(1-pct/100);
+  const ring=document.getElementById('ring-circle');
+  ring.style.strokeDashoffset=offset;
+  ring.style.stroke = pct>=80?'#7abf7a':pct>=50?'#b07830':'#7a4a18';
+  document.getElementById('ring-pct').textContent=pct+'%';
+
+  // Main bar
+  const fill=document.getElementById('main-prog-fill');
+  fill.style.width=pct+'%';
+  fill.style.background=pct>=80?'linear-gradient(90deg,#4a8a4a,#7abf7a)':'linear-gradient(90deg,#8a4a10,#d4900a)';
+  document.getElementById('tasks-count').textContent=completed+'/'+TOTAL_TASKS+' tasks';
+
+  // Banner
+  let txt,col;
+  if(pct===100){txt="Day locked in. That's what leaders do. 🏆";col="#f0d080";}
+  else if(pct>=75){txt="Almost there. Finish what you started.";col="#7abf7a";}
+  else if(pct>=50){txt="Halfway. The second half is where men are made.";col="#b07830";}
+  else if(pct>=25){txt="You've started. Now don't stop.";col="#8a7a5a";}
+  else{txt="Every day is a choice. Choose to lead.";col="#5a4a34";}
+  const banner=document.getElementById('banner');
+  banner.textContent=txt; banner.style.color=col;
+
+  // EOD nudge
+  const saved=history.some(d=>d.date===todayKey());
+  const nudge=document.getElementById('eod-nudge');
+  if(pct>0 && !saved){
+    nudge.style.display='block';
+    document.getElementById('nudge-text').textContent=pct>=80?'Strong day. Close it out properly.':'Don\'t forget to log your day before bed.';
+  } else { nudge.style.display='none'; }
+
+  // EOD button
+  const eodBtn=document.getElementById('eod-btn');
+  if(saved){ eodBtn.className='btn-saved'; eodBtn.textContent='🌙 Day Saved ✓'; }
+  else { eodBtn.className='btn-gold'; eodBtn.textContent='🌙 End of Day Summary'; }
+}
+
+// ── CHART ──────────────────────────────────────────────────
+function buildChart(containerId, legendId){
+  const container=document.getElementById(containerId);
+  const legend=document.getElementById(legendId);
+  const days=history.slice(-14);
+  const today=todayKey();
+
+  if(days.length===0){
+    container.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100px;color:#3a2a1a;font-size:13px">No history yet — complete your first day!</div>';
+    return;
+  }
+
+  const maxH=80;
+  let barsHtml='<div class="chart-bars">';
+  days.forEach(d=>{
+    const h=Math.max(4,Math.round((d.score/100)*maxH));
+    const {color}=scoreLabel(d.score);
+    const isToday=d.date===today;
+    const dateStr=new Date(d.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric'});
+    barsHtml+=`
+    <div class="bar-col">
+      <span class="bar-score">${d.score}%</span>
+      <div class="bar-block" style="width:22px;height:${h}px;background:${isToday?`linear-gradient(180deg,${color},#7a4a18)`:color};opacity:${isToday?1:.55};border:${isToday?`1px solid ${color}`:'none'}">
+        ${isToday?`<span class="bar-today-label" style="color:${color}">TODAY</span>`:''}
+      </div>
+      <span class="bar-date">${dateStr}</span>
+    </div>`;
+  });
+  barsHtml+='</div>';
+  container.innerHTML=barsHtml;
+
+  legend.innerHTML=[['#f0d080','100%'],['#7abf7a','80%+'],['#b07830','60%+'],['#8a7a5a','40%+'],['#7a4a4a','<40%']].map(([c,l])=>
+    `<div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:${c}"></div><span style="font-size:9px;color:#4a3a24">${l}</span></div>`
+  ).join('');
+}
+
+// ── MODALS ─────────────────────────────────────────────────
+function openMorning(){
+  const yesterday=history.slice(-1)[0];
+  const avg=history.length?Math.round(history.reduce((a,d)=>a+d.score,0)/history.length):0;
+  const streak=calcStreak(history);
+  const avg7=history.slice(-7).length?Math.round(history.slice(-7).reduce((a,d)=>a+d.score,0)/history.slice(-7).length):null;
+
+  document.getElementById('morning-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+
+  // Yesterday
+  const ysec=document.getElementById('morning-yesterday-section');
+  if(yesterday){
+    const {label,color}=scoreLabel(yesterday.score);
+    ysec.innerHTML=`
+    <div class="section-label" style="margin-bottom:12px">Yesterday's Result</div>
+    <div class="yesterday-box" style="border-color:${color}33;margin-bottom:24px">
+      <div class="yesterday-score" style="color:${color}">${yesterday.score}%</div>
+      <div class="yesterday-lbl" style="color:${color}">${label}</div>
+      <div class="yesterday-meta">${yesterday.completed} of ${TOTAL_TASKS} tasks completed</div>
+      ${yesterday.note?`<div class="yesterday-note">"${yesterday.note}"</div>`:''}
+    </div>`;
+  } else {
+    ysec.innerHTML=`<div class="no-yesterday">No data yet. Complete your first day to see your review here.</div>`;
+  }
+
+  // Stats
+  document.getElementById('morning-stats').innerHTML=`
+    <div class="stat-mini"><div class="stat-mini-val">${history.slice(-7).length?avg7+'%':'—'}</div><div class="stat-mini-lbl">7-Day Avg</div></div>
+    <div class="stat-mini"><div class="stat-mini-val">${avg?avg+'%':'—'}</div><div class="stat-mini-lbl">All-Time Avg</div></div>
+    <div class="stat-mini"><div class="stat-mini-val">${streak>0?streak+' day'+(streak>1?'s':''):'0 days'}</div><div class="stat-mini-lbl">🔥 Streak</div></div>
+  `;
+
+  document.getElementById('modal-morning').style.display='flex';
+  buildChart('morning-chart','morning-legend');
+}
+
+function openEOD(){
+  const completed=dailyHabits.reduce((a,h)=>a+h.tasks.filter((_,i)=>habitChecked[h.id+'-'+i]).length,0);
+  const score=Math.round((completed/TOTAL_TASKS)*100);
+  const {label,color}=scoreLabel(score);
+  const streak=calcStreak(history)+(score>=60?1:0);
+
+  document.getElementById('eod-score-box').style.borderColor=color+'33';
+  document.getElementById('eod-pct').textContent=score+'%';
+  document.getElementById('eod-pct').style.color=color;
+  document.getElementById('eod-label').textContent=label;
+  document.getElementById('eod-label').style.color=color;
+  document.getElementById('eod-meta').textContent=`${completed} of ${TOTAL_TASKS} tasks · ${streak} day streak 🔥`;
+
+  // Breakdown
+  let bkHtml='';
+  dailyHabits.forEach(h=>{
+    const done=h.tasks.filter((_,i)=>habitChecked[h.id+'-'+i]).length;
+    const pct=Math.round((done/h.tasks.length)*100);
+    const c=pct===100?'#7abf7a':'#7a6a54';
+    const fc=pct===100?'#4a8a4a':'#7a4a18';
+    bkHtml+=`<div class="breakdown-row">
+      <span style="font-size:14px;width:22px">${h.emoji}</span>
+      <div class="breakdown-mini">
+        <div class="breakdown-header"><span style="font-size:11px;color:${c}">${h.label}</span><span style="font-size:11px;color:${pct===100?'#7abf7a':'#5a4a34'}">${done}/${h.tasks.length}</span></div>
+        <div class="breakdown-track"><div class="breakdown-fill" style="width:${pct}%;background:${fc}"></div></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('eod-breakdown').innerHTML=bkHtml;
+
+  // Missed
+  const incomplete=dailyHabits.filter(h=>h.tasks.filter((_,i)=>habitChecked[h.id+'-'+i]).length<h.tasks.length);
+  const msec=document.getElementById('eod-missed-section');
+  if(incomplete.length>0){
+    msec.innerHTML=`<div class="missed-box"><div class="missed-label">Tomorrow — Don't Miss These</div>${incomplete.map(h=>`<div class="missed-item"><span>${h.emoji}</span>${h.label}</div>`).join('')}</div>`;
+  } else { msec.innerHTML=''; }
+
+  document.getElementById('eod-note').value='';
+  document.getElementById('modal-eod').style.display='flex';
+}
+
+function closeModal(id){ document.getElementById(id).style.display='none'; }
+
+function saveDay(){
+  const completed=dailyHabits.reduce((a,h)=>a+h.tasks.filter((_,i)=>habitChecked[h.id+'-'+i]).length,0);
+  const score=Math.round((completed/TOTAL_TASKS)*100);
+  const note=document.getElementById('eod-note').value.trim();
+  const entry={date:todayKey(),score,completed,note};
+  history=[...history.filter(d=>d.date!==todayKey()),entry].sort((a,b)=>a.date.localeCompare(b.date));
+  ss('gp_history',history);
+  closeModal('modal-eod');
+  updateHeader();
+  if(document.getElementById('view-progress').style.display!=='none') renderProgress();
+}
+
+// ── PROGRESS TAB ───────────────────────────────────────────
+function renderProgress(){
+  const streak=calcStreak(history);
+  const avg7=history.slice(-7).length?Math.round(history.slice(-7).reduce((a,d)=>a+d.score,0)/history.slice(-7).length):null;
+  const best=history.length?Math.max(...history.map(d=>d.score)):null;
+
+  const streakColor=streak>=7?'#f0d080':streak>=3?'#b07830':'#5a4a34';
+  document.getElementById('progress-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-icon">🔥</div><div class="stat-value" style="color:${streakColor}">${streak>0?streak+' days':'0 days'}</div><div class="stat-label">Current Streak</div></div>
+    <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value" style="color:#b07830">${avg7!==null?avg7+'%':'—'}</div><div class="stat-label">7-Day Average</div></div>
+    <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-value" style="color:#7abf7a">${best!==null?best+'%':'—'}</div><div class="stat-label">Best Day</div></div>
+    <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-value" style="color:#8a7a8a">${history.length}</div><div class="stat-label">Days Logged</div></div>
+  `;
+
+  buildChart('progress-chart','progress-legend');
+
+  const log=document.getElementById('history-log');
+  if(history.length===0){ log.innerHTML='<div class="history-empty">No days logged yet. Complete a day and save it to see history here.</div>'; return; }
+  log.innerHTML=[...history].reverse().map(d=>{
+    const {label,color}=scoreLabel(d.score);
+    const dateStr=new Date(d.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    return `<div class="history-item">
+      <div class="history-ring" style="border:2px solid ${color}55;color:${color}">${d.score}%</div>
+      <div style="flex:1">
+        <div class="history-date">${dateStr}</div>
+        <div class="history-label" style="color:${color}">${label}</div>
+        ${d.note?`<div class="history-note">"${d.note}"</div>`:''}
+      </div>
+      <div class="history-count">${d.completed}/${TOTAL_TASKS}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── TABS ───────────────────────────────────────────────────
+function switchTab(tab){
+  document.getElementById('view-today').style.display   = tab==='today'   ?'block':'none';
+  document.getElementById('view-progress').style.display= tab==='progress'?'block':'none';
+  document.getElementById('tab-today').classList.toggle('active',    tab==='today');
+  document.getElementById('tab-progress').classList.toggle('active', tab==='progress');
+  if(tab==='progress') renderProgress();
+}
+
+// ── INIT ───────────────────────────────────────────────────
+document.getElementById('header-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+renderHabits();
+</script>
+</body>
+</html>
